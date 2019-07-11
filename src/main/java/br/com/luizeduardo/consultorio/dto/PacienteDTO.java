@@ -1,5 +1,6 @@
 package br.com.luizeduardo.consultorio.dto;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -11,7 +12,8 @@ import br.com.luizeduardo.consultorio.dominio.Paciente;
 import br.com.luizeduardo.consultorio.dominio.TelefonePaciente;
 import br.com.luizeduardo.consultorio.repositories.PacienteRepository;
 
-public class PacienteDTO {
+public class PacienteDTO implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	@Autowired
 	private PacienteRepository pacienteRepository;
@@ -25,16 +27,13 @@ public class PacienteDTO {
 	private List<TelefonePaciente> telefones = new ArrayList<>();
 	private EnderecoPaciente enderecoPaciente;
 
-	public PacienteDTO(Long id, String nome, String cpf, String sexo, String email, Date dataNascimento,
-			List<TelefonePaciente> telefonePacientes, EnderecoPaciente enderecoPaciente) {
-		this.id = id;
-		this.nome = nome;
-		this.cpf = cpf;
-		this.sexo = sexo;
-		this.email = email;
-		this.dataNascimento = dataNascimento;
-		this.telefones = telefonePacientes;
-		this.enderecoPaciente = enderecoPaciente;
+	public PacienteDTO(Paciente paciente) {
+		this.id = paciente.getId();
+		this.nome = paciente.getNome();
+		this.cpf = paciente.getCpf();
+		this.sexo = paciente.getSexo();
+		this.email = paciente.getEmail();
+		this.dataNascimento = paciente.getDataNascimento();
 	}
 
 	public PacienteDTO() {
@@ -104,25 +103,15 @@ public class PacienteDTO {
 		this.enderecoPaciente = enderecoPaciente;
 	}
 
-	public Paciente savePaciente(PacienteDTO paciente) {
-		Paciente pacienteReturn = new Paciente(paciente.getId(), paciente.getNome(), paciente.getCpf(),
-				paciente.getSexo(), paciente.getEmail(), paciente.getDataNascimento(), paciente.getEnderecoPaciente());
-
-		for (TelefonePaciente t : paciente.getTelefones()) {
-			TelefonePaciente telefonePaciente = new TelefonePaciente();
-			telefonePaciente.setTipo(t.getTipo());
-			telefonePaciente.setNumero(t.getNumero());
-			telefonePaciente.setPaciente(pacienteReturn);
-		}
-
-		EnderecoPaciente enderecoPaciente = new EnderecoPaciente();
-		enderecoPaciente.setRua(paciente.getEnderecoPaciente().getRua());
-		enderecoPaciente.setNumero(paciente.getEnderecoPaciente().getNumero());
-		enderecoPaciente.setBairro(paciente.getEnderecoPaciente().getBairro());
-		enderecoPaciente.setCidade(paciente.getEnderecoPaciente().getCidade());
-		enderecoPaciente.setPaciente(pacienteReturn);
-
-		return pacienteRepository.save(pacienteReturn);
+	public void savePaciente(PacienteDTO pacienteDto) {
+		Paciente paciente = new Paciente();
+		paciente.setId(pacienteDto.getId());
+		paciente.setNome(pacienteDto.getNome());
+		paciente.setCpf(pacienteDto.getCpf());
+		paciente.setSexo(pacienteDto.getSexo());
+		paciente.setEmail(pacienteDto.getEmail());
+		paciente.setDataNascimento(pacienteDto.getDataNascimento());
+		pacienteRepository.save(paciente);
 	}
 
 }

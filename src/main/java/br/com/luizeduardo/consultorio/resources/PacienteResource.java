@@ -53,7 +53,7 @@ public class PacienteResource {
 	public ResponseEntity<Paciente> findById(@PathVariable Long id) {
 		Optional<Paciente> paciente = pacienteService.findById(id);
 
-		if (paciente.isEmpty()) {
+		if (paciente == null) {
 			try {
 				throw new ObjectNotFoundException("Paciente Não Encontrado");
 			} catch (ObjectNotFoundException e) {
@@ -75,7 +75,7 @@ public class PacienteResource {
 	public ResponseEntity<Paciente> editarPaciente(@PathVariable Long id, @Valid @RequestBody Paciente paciente) {
 		Optional<Paciente> pacienteReturn = pacienteService.findById(id);
 
-		if (pacienteReturn.isEmpty()) {
+		if (pacienteReturn == null) {
 			try {
 				throw new ObjectNotFoundException("Paciente Não Encontrado");
 			} catch (ObjectNotFoundException e) {
@@ -91,9 +91,9 @@ public class PacienteResource {
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> removerPaciente(@PathVariable Long id) {
-		Optional<Paciente> p = pacienteService.findById(id);
+		Optional<Paciente> paciente = pacienteService.findById(id);
 
-		if (p.isEmpty()) {
+		if (paciente == null) {
 			try {
 				throw new ObjectNotFoundException("Paciente Não Encontrado");
 			} catch (ObjectNotFoundException e) {

@@ -2,16 +2,11 @@ package br.com.luizeduardo.consultorio.dominio;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(schema = "consultorio", name = "telefone_paciente")
@@ -19,15 +14,16 @@ public class TelefonePaciente implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@SequenceGenerator(name = "telefone_paciente_id_seq", sequenceName = "telefone_paciente_id_seq")
+	@GeneratedValue(generator = "telefone_paciente_id_seq")
 	private Long id;
 	private String tipo;
 	private String numero;
 	
-	@JsonIgnore
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "id_paciente")
-	private Paciente paciente;
+//	@JsonIgnore
+//	@ManyToOne(cascade = CascadeType.ALL)
+//	@JoinColumn(name = "id_paciente")
+//	private Paciente paciente;
 
 	public TelefonePaciente() {
 	}
@@ -36,7 +32,6 @@ public class TelefonePaciente implements Serializable {
 		this.id = id;
 		this.tipo = tipo;
 		this.numero = numero;
-		this.paciente = paciente;
 	}
 
 	public Long getId() {
@@ -62,14 +57,14 @@ public class TelefonePaciente implements Serializable {
 	public void setNumero(String numero) {
 		this.numero = numero;
 	}
-
-	public Paciente getPaciente() {
-		return paciente;
-	}
-
-	public void setPaciente(Paciente paciente) {
-		this.paciente = paciente;
-	}
+//
+//	public Paciente getPaciente() {
+//		return paciente;
+//	}
+//
+//	public void setPaciente(Paciente paciente) {
+//		this.paciente = paciente;
+//	}
 
 	@Override
 	public int hashCode() {

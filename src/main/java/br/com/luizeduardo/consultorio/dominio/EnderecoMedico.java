@@ -2,7 +2,6 @@ package br.com.luizeduardo.consultorio.dominio;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,20 +20,19 @@ public class EnderecoMedico implements Serializable {
 	private String numero;
 	private String bairro;
 	private String cidade;
-	@Column(name = "id_medico")
-	private Medico idMedico;
+//	@Column(name = "id_medico")
+//	private Medico idMedico;
 
 	public EnderecoMedico() {
 	}
 
-	public EnderecoMedico(Long id, String rua, String numero, String bairro, String cidade, Medico idMedico) {
+	public EnderecoMedico(Long id, String rua, String numero, String bairro, String cidade) {
 		super();
 		this.id = id;
 		this.rua = rua;
 		this.numero = numero;
 		this.bairro = bairro;
 		this.cidade = cidade;
-		this.idMedico = idMedico;
 	}
 
 	public Long getId() {
@@ -76,14 +74,14 @@ public class EnderecoMedico implements Serializable {
 	public void setCidade(String cidade) {
 		this.cidade = cidade;
 	}
-
-	public Medico getIdMedico() {
-		return idMedico;
-	}
-
-	public void setIdMedico(Medico idMedico) {
-		this.idMedico = idMedico;
-	}
+//
+//	public Medico getIdMedico() {
+//		return idMedico;
+//	}
+//
+//	public void setIdMedico(Medico idMedico) {
+//		this.idMedico = idMedico;
+//	}
 
 	@Override
 	public int hashCode() {

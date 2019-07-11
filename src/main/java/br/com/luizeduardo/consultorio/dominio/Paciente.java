@@ -1,20 +1,17 @@
 package br.com.luizeduardo.consultorio.dominio;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(schema = "consultorio", name = "paciente")
@@ -22,35 +19,49 @@ public class Paciente implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@SequenceGenerator(name = "paciente_id_seq", sequenceName = "paciente_id_seq")
+	@GeneratedValue(generator = "paciente_id_seq")
 	private Long id;
-	
+
+	@Column(nullable = false)
+	@NotNull(message = "Nome não pode ser Vazio")
 	private String nome;
+
+	@Column(nullable = false)
+	@NotNull(message = "cpf não pode ser Vazio")
 	private String cpf;
+
+	@Column(nullable = false)
+	@NotNull(message = "sexo não pode ser Vazio")
+
 	private String sexo;
+	@Column(nullable = false)
+	@NotNull(message = "email não pode ser Vazio")
 	private String email;
-	@Temporal(TemporalType.DATE)
-	@Column(name = "data_nascimento")
+
+	@NotNull(message = "Data de Nascimento não pode ser Vazio")
+	@DateTimeFormat(pattern = "yyy-MM-dd")
+	@Column(name = "data_nascimento", nullable = false)
 	private Date dataNascimento;
 
-	@OneToMany(mappedBy = "paciente")
-	private List<TelefonePaciente> telefones = new ArrayList<TelefonePaciente>();
-
-	@OneToOne(mappedBy = "paciente")
-	private EnderecoPaciente enderecoPaciente;
+//	@NotNull(message = "Telefone não pode ser Vazio")
+//	@OneToMany(mappedBy = "paciente")
+//	private List<TelefonePaciente> telefones = new ArrayList<TelefonePaciente>();
+//
+//	@NotNull(message = "Endereço não pode ser Vazio")
+//	@OneToOne(mappedBy = "paciente")
+//	private EnderecoPaciente enderecoPaciente;
 
 	public Paciente() {
 	}
 
-	public Paciente(Long id, String nome, String cpf, String sexo, String email, Date dataNascimento,
-			EnderecoPaciente enderecoPaciente) {
+	public Paciente(Long id, String nome, String cpf, String sexo, String email, Date dataNascimento) {
 		this.id = id;
 		this.nome = nome;
 		this.cpf = cpf;
 		this.sexo = sexo;
 		this.email = email;
 		this.dataNascimento = dataNascimento;
-		this.enderecoPaciente = enderecoPaciente;
 	}
 
 	public Long getId() {
@@ -99,18 +110,6 @@ public class Paciente implements Serializable {
 
 	public void setDataNascimento(Date dataNascimento) {
 		this.dataNascimento = dataNascimento;
-	}
-
-	public List<TelefonePaciente> getTelefones() {
-		return telefones;
-	}
-
-	public EnderecoPaciente getEnderecoPaciente() {
-		return enderecoPaciente;
-	}
-
-	public void setEnderecoPaciente(EnderecoPaciente enderecoPaciente) {
-		this.enderecoPaciente = enderecoPaciente;
 	}
 
 	@Override
