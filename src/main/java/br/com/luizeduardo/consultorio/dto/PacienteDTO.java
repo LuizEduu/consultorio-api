@@ -1,15 +1,11 @@
 package br.com.luizeduardo.consultorio.dto;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import br.com.luizeduardo.consultorio.dominio.EnderecoPaciente;
 import br.com.luizeduardo.consultorio.dominio.Paciente;
-import br.com.luizeduardo.consultorio.dominio.TelefonePaciente;
 import br.com.luizeduardo.consultorio.repositories.PacienteRepository;
 
 public class PacienteDTO implements Serializable {
@@ -24,8 +20,8 @@ public class PacienteDTO implements Serializable {
 	private String sexo;
 	private String email;
 	private Date dataNascimento;
-	private List<TelefonePaciente> telefones = new ArrayList<>();
-	private EnderecoPaciente enderecoPaciente;
+//	private List<TelefonePaciente> telefones = new ArrayList<>();
+//	private EnderecoPaciente enderecoPaciente;
 
 	public PacienteDTO(Paciente paciente) {
 		this.id = paciente.getId();
@@ -87,31 +83,31 @@ public class PacienteDTO implements Serializable {
 		this.dataNascimento = dataNascimento;
 	}
 
-	public List<TelefonePaciente> getTelefones() {
-		return telefones;
-	}
+//	public List<TelefonePaciente> getTelefones() {
+//		return telefones;
+//	}
+//
+//	public void setTelefones(List<TelefonePaciente> telefones) {
+//		this.telefones = telefones;
+//	}
+//
+//	public EnderecoPaciente getEnderecoPaciente() {
+//		return enderecoPaciente;
+//	}
+//
+//	public void setEnderecoPaciente(EnderecoPaciente enderecoPaciente) {
+//		this.enderecoPaciente = enderecoPaciente;
+//	}
 
-	public void setTelefones(List<TelefonePaciente> telefones) {
-		this.telefones = telefones;
-	}
-
-	public EnderecoPaciente getEnderecoPaciente() {
-		return enderecoPaciente;
-	}
-
-	public void setEnderecoPaciente(EnderecoPaciente enderecoPaciente) {
-		this.enderecoPaciente = enderecoPaciente;
-	}
-
-	public void savePaciente(PacienteDTO pacienteDto) {
+	public Paciente savePaciente(Paciente pacienteDto) {
 		Paciente paciente = new Paciente();
-		paciente.setId(pacienteDto.getId());
 		paciente.setNome(pacienteDto.getNome());
 		paciente.setCpf(pacienteDto.getCpf());
 		paciente.setSexo(pacienteDto.getSexo());
 		paciente.setEmail(pacienteDto.getEmail());
 		paciente.setDataNascimento(pacienteDto.getDataNascimento());
 		pacienteRepository.save(paciente);
+		return paciente;
 	}
 
 }

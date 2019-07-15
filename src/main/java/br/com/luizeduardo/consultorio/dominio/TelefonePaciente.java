@@ -2,11 +2,16 @@ package br.com.luizeduardo.consultorio.dominio;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(schema = "consultorio", name = "telefone_paciente")
@@ -14,16 +19,19 @@ public class TelefonePaciente implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name = "telefone_paciente_id_seq", sequenceName = "telefone_paciente_id_seq")
-	@GeneratedValue(generator = "telefone_paciente_id_seq")
+	@SequenceGenerator(name = "consultorio.paciente_telefone_sequence_id", sequenceName = "consultorio.paciente_telefone_sequence_id")
+	@GeneratedValue(generator = "consultorio.paciente_telefone_sequence_id")
+	@Column(name = "id_telefone_paciente")
 	private Long id;
+	@Column(name = "tipo_telefone_paciente")
 	private String tipo;
+	@Column(name = "numero_telefone_paciente")
 	private String numero;
-	
-//	@JsonIgnore
-//	@ManyToOne(cascade = CascadeType.ALL)
-//	@JoinColumn(name = "id_paciente")
-//	private Paciente paciente;
+
+	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(name = "paciente_id")
+	private Paciente paciente;
 
 	public TelefonePaciente() {
 	}
@@ -57,14 +65,14 @@ public class TelefonePaciente implements Serializable {
 	public void setNumero(String numero) {
 		this.numero = numero;
 	}
-//
-//	public Paciente getPaciente() {
-//		return paciente;
-//	}
-//
-//	public void setPaciente(Paciente paciente) {
-//		this.paciente = paciente;
-//	}
+
+	public Paciente getPaciente() {
+		return paciente;
+	}
+
+	public void setPaciente(Paciente paciente) {
+		this.paciente = paciente;
+	}
 
 	@Override
 	public int hashCode() {

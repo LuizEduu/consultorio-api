@@ -1,17 +1,19 @@
 package br.com.luizeduardo.consultorio.dominio;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-
-import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(schema = "consultorio", name = "paciente")
@@ -19,49 +21,44 @@ public class Paciente implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name = "paciente_id_seq", sequenceName = "paciente_id_seq")
-	@GeneratedValue(generator = "paciente_id_seq")
+	@SequenceGenerator(name = "consultorio.paciente_sequence_id", sequenceName = "consultorio.paciente_sequence_id")
+	@GeneratedValue(generator = "consultorio.paciente_sequence_id")
+	@Column(name = "id_paciente")
 	private Long id;
 
-	@Column(nullable = false)
-	@NotNull(message = "Nome não pode ser Vazio")
+	@Column(name = "nome_paciente")
 	private String nome;
 
-	@Column(nullable = false)
-	@NotNull(message = "cpf não pode ser Vazio")
+	@Column(name = "cpf_paciente")
 	private String cpf;
 
-	@Column(nullable = false)
-	@NotNull(message = "sexo não pode ser Vazio")
-
+	@Column(name = "sexo_paciente")
 	private String sexo;
-	@Column(nullable = false)
-	@NotNull(message = "email não pode ser Vazio")
+
+	@Column(name = "email_paciente")
 	private String email;
 
-	@NotNull(message = "Data de Nascimento não pode ser Vazio")
-	@DateTimeFormat(pattern = "yyy-MM-dd")
-	@Column(name = "data_nascimento", nullable = false)
+	@Column(name = "data_nascimento_paciente")
 	private Date dataNascimento;
 
-//	@NotNull(message = "Telefone não pode ser Vazio")
-//	@OneToMany(mappedBy = "paciente")
-//	private List<TelefonePaciente> telefones = new ArrayList<TelefonePaciente>();
-//
-//	@NotNull(message = "Endereço não pode ser Vazio")
-//	@OneToOne(mappedBy = "paciente")
-//	private EnderecoPaciente enderecoPaciente;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "paciente")
+	private List<TelefonePaciente> telefones = new ArrayList<TelefonePaciente>();
+
+	@OneToOne(cascade = CascadeType.ALL, mappedBy = "paciente")
+	private EnderecoPaciente enderecoPaciente;
 
 	public Paciente() {
 	}
 
-	public Paciente(Long id, String nome, String cpf, String sexo, String email, Date dataNascimento) {
+	public Paciente(Long id, String nome, String cpf, String sexo, String email, Date dataNascimento,
+			EnderecoPaciente enderecoPaciente) {
 		this.id = id;
 		this.nome = nome;
 		this.cpf = cpf;
 		this.sexo = sexo;
 		this.email = email;
 		this.dataNascimento = dataNascimento;
+		this.enderecoPaciente = enderecoPaciente;
 	}
 
 	public Long getId() {
@@ -110,6 +107,22 @@ public class Paciente implements Serializable {
 
 	public void setDataNascimento(Date dataNascimento) {
 		this.dataNascimento = dataNascimento;
+	}
+
+	public List<TelefonePaciente> getTelefones() {
+		return telefones;
+	}
+
+	public void setTelefones(List<TelefonePaciente> telefones) {
+		this.telefones = telefones;
+	}
+
+	public EnderecoPaciente getEnderecoPaciente() {
+		return enderecoPaciente;
+	}
+
+	public void setEnderecoPaciente(EnderecoPaciente enderecoPaciente) {
+		this.enderecoPaciente = enderecoPaciente;
 	}
 
 	@Override

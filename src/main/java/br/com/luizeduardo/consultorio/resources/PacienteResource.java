@@ -33,7 +33,7 @@ public class PacienteResource {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<Paciente> adicionar(@Valid @RequestBody Paciente paciente) {
+	public ResponseEntity<Paciente> adicionar(@RequestBody Paciente paciente) {
 		Optional<Paciente> pacienteReturn = pacienteService.findByCpf(paciente.getCpf());
 
 		if (pacienteReturn.isPresent()) {

@@ -2,7 +2,7 @@ package br.com.luizeduardo.consultorio.dominio;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -19,17 +19,22 @@ public class EnderecoPaciente implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name = "endereco_paciente_id_seq", sequenceName = "endereco_paciente_id_seq")
-	@GeneratedValue(generator = "endereco_paciente_id_seq")
+	@SequenceGenerator(name = "consultorio.paciente_endereco_sequence_id", sequenceName = "consultorio.paciente_endereco_sequence_id")
+	@GeneratedValue(generator = "consultorio.paciente_endereco_sequence_id")
+	@Column(name = "id_endereco_paciente")
 	private Long id;
+	@Column(name = "rua_endereco_paciente")
 	private String rua;
+	@Column(name = "numero_endereco_paciente")
 	private String numero;
+	@Column(name = "bairro_endereco_paciente")
 	private String bairro;
+	@Column(name = "cidade_endereco_paciente")
 	private String cidade;
 
 	@JsonIgnore
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "id_paciente")
+	@OneToOne
+	@JoinColumn(name = "paciente_id")
 	private Paciente paciente;
 
 	public EnderecoPaciente() {
