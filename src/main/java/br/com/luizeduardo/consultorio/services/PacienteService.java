@@ -27,8 +27,7 @@ public class PacienteService {
 
 	public Paciente adicionar(Paciente paciente) {
 
-//		PacienteDTO pacienteDTO = new PacienteDTO();
-//		pacienteDTO.savePaciente(paciente);
+
 		Paciente savePaciente = new Paciente();
 		savePaciente.setNome(paciente.getNome());
 		savePaciente.setCpf(paciente.getCpf());
@@ -54,7 +53,6 @@ public class PacienteService {
 		enderecoPaciente.setCidade(paciente.getEnderecoPaciente().getCidade());
 		enderecoPaciente.setPaciente(getPaciente);
 		enderecoPacienteRepository.save(enderecoPaciente);
-
 		return getPaciente;
 	}
 

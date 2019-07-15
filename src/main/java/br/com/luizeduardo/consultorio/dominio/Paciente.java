@@ -14,6 +14,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 @Table(schema = "consultorio", name = "paciente")
@@ -26,19 +29,26 @@ public class Paciente implements Serializable {
 	@Column(name = "id_paciente")
 	private Long id;
 
-	@Column(name = "nome_paciente")
+	@NotNull
+	@Column(name = "nome_paciente", nullable = false)
 	private String nome;
 
-	@Column(name = "cpf_paciente")
+	@NotNull
+	@Column(name = "cpf_paciente", nullable = false)
+	@Length(min = 11, max = 11)
 	private String cpf;
 
-	@Column(name = "sexo_paciente")
+	@NotNull
+	@Column(name = "sexo_paciente", nullable = false)
+	@Length(min = 1, max = 1)
 	private String sexo;
 
-	@Column(name = "email_paciente")
+	@NotNull
+	@Column(name = "email_paciente", nullable = false)
 	private String email;
 
-	@Column(name = "data_nascimento_paciente")
+	@NotNull
+	@Column(name = "data_nascimento_paciente", nullable = false)
 	private Date dataNascimento;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "paciente")

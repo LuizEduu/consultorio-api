@@ -32,7 +32,7 @@ public class PacienteResource {
 	PacienteService pacienteService;
 
 	@PostMapping
-	@ResponseStatus(HttpStatus.CREATED)
+	@ResponseStatus(value = HttpStatus.CREATED)
 	public ResponseEntity<Paciente> adicionar(@RequestBody Paciente paciente) {
 		Optional<Paciente> pacienteReturn = pacienteService.findByCpf(paciente.getCpf());
 
@@ -102,7 +102,7 @@ public class PacienteResource {
 		}
 
 		pacienteService.removerPaciente(id);
-		return ResponseEntity.noContent().build();
+		return ResponseEntity.ok("Paciente Removido com Sucesso");
 
 	}
 

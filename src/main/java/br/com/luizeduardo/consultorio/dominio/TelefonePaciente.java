@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -23,9 +24,13 @@ public class TelefonePaciente implements Serializable {
 	@GeneratedValue(generator = "consultorio.paciente_telefone_sequence_id")
 	@Column(name = "id_telefone_paciente")
 	private Long id;
-	@Column(name = "tipo_telefone_paciente")
+
+	@NotNull
+	@Column(name = "tipo_telefone_paciente", nullable = false)
 	private String tipo;
-	@Column(name = "numero_telefone_paciente")
+
+	@NotNull
+	@Column(name = "numero_telefone_paciente", nullable = false)
 	private String numero;
 
 	@JsonIgnore

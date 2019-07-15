@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -23,13 +24,21 @@ public class EnderecoPaciente implements Serializable {
 	@GeneratedValue(generator = "consultorio.paciente_endereco_sequence_id")
 	@Column(name = "id_endereco_paciente")
 	private Long id;
-	@Column(name = "rua_endereco_paciente")
+
+	@NotNull
+	@Column(name = "rua_endereco_paciente", nullable = false)
 	private String rua;
-	@Column(name = "numero_endereco_paciente")
+
+	@NotNull
+	@Column(name = "numero_endereco_paciente", nullable = false)
 	private String numero;
-	@Column(name = "bairro_endereco_paciente")
+
+	@NotNull
+	@Column(name = "bairro_endereco_paciente", nullable = false)
 	private String bairro;
-	@Column(name = "cidade_endereco_paciente")
+
+	@NotNull
+	@Column(name = "cidade_endereco_paciente", nullable = false)
 	private String cidade;
 
 	@JsonIgnore

@@ -2,11 +2,11 @@ package br.com.luizeduardo.consultorio.dominio;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(schema = "consultorio", name = "medico")
@@ -14,11 +14,23 @@ public class Medico implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_medico", nullable = false)
 	private Long id;
+	
+	@NotNull
+	@Column(name = "nome_medico", nullable = false)
 	private String nome;
+	
+	@NotNull
+	@Column(name = "cpf_medico", nullable = false)
 	private String cpf;
+	
+	@NotNull
+	@Column(name = "sexo_medico", nullable = false)
 	private String sexo;
+	
+	@NotNull
+	@Column(name = "crm_medico", nullable = false)
 	private String crm;
 
 	public Medico() {
