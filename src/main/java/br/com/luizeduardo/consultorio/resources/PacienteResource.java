@@ -88,6 +88,8 @@ public class PacienteResource {
 		return ResponseEntity.ok(pacienteReturn.get());
 
 	}
+	
+	// Metodo para remover Paciente
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> removerPaciente(@PathVariable Long id) {
