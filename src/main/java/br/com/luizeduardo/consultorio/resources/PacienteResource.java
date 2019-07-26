@@ -84,12 +84,10 @@ public class PacienteResource {
 		}
 
 		BeanUtils.copyProperties(paciente, pacienteReturn.get(), "id");
-		pacienteService.adicionar(pacienteReturn.get());
-		return ResponseEntity.ok(pacienteReturn.get());
+		Paciente getPacienteEditado = pacienteService.editPaciente(pacienteReturn.get());
+		return ResponseEntity.ok().body(getPacienteEditado);
 
 	}
-	
-	// Metodo para remover Paciente
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> removerPaciente(@PathVariable Long id) {

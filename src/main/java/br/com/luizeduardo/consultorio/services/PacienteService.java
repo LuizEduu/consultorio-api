@@ -27,7 +27,6 @@ public class PacienteService {
 
 	public Paciente adicionar(Paciente paciente) {
 
-
 		Paciente savePaciente = new Paciente();
 		savePaciente.setNome(paciente.getNome());
 		savePaciente.setCpf(paciente.getCpf());
@@ -35,7 +34,6 @@ public class PacienteService {
 		savePaciente.setEmail(paciente.getEmail());
 		savePaciente.setDataNascimento(paciente.getDataNascimento());
 		Paciente getPaciente = pacienteRepository.save(savePaciente);
-		
 
 		paciente.getTelefones().forEach(telefones -> {
 			TelefonePaciente telefonePaciente = new TelefonePaciente();
@@ -67,6 +65,10 @@ public class PacienteService {
 
 	public void removerPaciente(Long id) {
 		pacienteRepository.deleteById(id);
+	}
+
+	public Paciente editPaciente(Paciente paciente) {
+		return pacienteRepository.save(paciente);
 	}
 
 	public List<Paciente> findAll() {
