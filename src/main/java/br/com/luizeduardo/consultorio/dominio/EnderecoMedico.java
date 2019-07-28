@@ -2,11 +2,17 @@ package br.com.luizeduardo.consultorio.dominio;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(schema = "consultorio", name = "endereco_medico")
@@ -14,20 +20,32 @@ public class EnderecoMedico implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@SequenceGenerator(sequenceName = "consultorio.medico_endereco_sequence_id", name = "consultorio.medico_endereco_sequence_id")
+	@GeneratedValue(generator = "consultorio.medico_endereco_sequence_id")
+	@Column(name = "id_endereco_medico", nullable = false)
+	@NotNull
 	private Long id;
+	@Column(name = "rua_endereco_medico", nullable = false)
+	@NotNull
 	private String rua;
+	@Column(name = "numero_endereco_medico", nullable = false)
+	@NotNull
 	private String numero;
+	@Column(name = "bairro_endereco_medico", nullable = false)
+	@NotNull
 	private String bairro;
+	@Column(name = "cidade_endereco_medico", nullable = false)
+	@NotNull
 	private String cidade;
-//	@Column(name = "id_medico")
-//	private Medico idMedico;
+	@JsonIgnore
+	@OneToOne
+	@JoinColumn(name = "id_medico")
+	private Medico medico;
 
 	public EnderecoMedico() {
 	}
 
 	public EnderecoMedico(Long id, String rua, String numero, String bairro, String cidade) {
-		super();
 		this.id = id;
 		this.rua = rua;
 		this.numero = numero;
@@ -74,14 +92,14 @@ public class EnderecoMedico implements Serializable {
 	public void setCidade(String cidade) {
 		this.cidade = cidade;
 	}
-//
-//	public Medico getIdMedico() {
-//		return idMedico;
-//	}
-//
-//	public void setIdMedico(Medico idMedico) {
-//		this.idMedico = idMedico;
-//	}
+
+	public Medico getMedico() {
+		return medico;
+	}
+
+	public void setMedico(Medico medico) {
+		this.medico = medico;
+	}
 
 	@Override
 	public int hashCode() {

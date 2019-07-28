@@ -6,8 +6,8 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,10 +17,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.luizeduardo.consultorio.dominio.Paciente;
+import br.com.luizeduardo.consultorio.dto.PacienteDto;
 import br.com.luizeduardo.consultorio.services.PacienteService;
 import javassist.tools.rmi.ObjectNotFoundException;
 
@@ -32,8 +33,7 @@ public class PacienteResource {
 	PacienteService pacienteService;
 
 	@PostMapping
-	@ResponseStatus(value = HttpStatus.CREATED)
-	public ResponseEntity<Paciente> adicionar(@RequestBody Paciente paciente) {
+	public ResponseEntity<Paciente> adicionar(@Valid @RequestBody Paciente paciente) {
 		Optional<Paciente> pacienteReturn = pacienteService.findByCpf(paciente.getCpf());
 
 		if (pacienteReturn.isPresent()) {
@@ -46,7 +46,7 @@ public class PacienteResource {
 
 		pacienteService.adicionar(paciente);
 
-		return ResponseEntity.ok().body(paciente);
+		return ResponseEntity.status(HttpStatus.CREATED).body(paciente);
 	}
 
 	@GetMapping("/{id}")
@@ -83,9 +83,8 @@ public class PacienteResource {
 			}
 		}
 
-		BeanUtils.copyProperties(paciente, pacienteReturn.get(), "id");
-		Paciente getPacienteEditado = pacienteService.editPaciente(pacienteReturn.get());
-		return ResponseEntity.ok().body(getPacienteEditado);
+		pacienteService.editPaciente(id, pacienteReturn.get());
+		return ResponseEntity.status(HttpStatus.CREATED).body(pacienteReturn.get());
 
 	}
 
@@ -104,6 +103,18 @@ public class PacienteResource {
 		pacienteService.removerPaciente(id);
 		return ResponseEntity.ok("Paciente Removido com Sucesso");
 
+	}
+
+	@GetMapping("/page")
+	public ResponseEntity<Page<PacienteDto>> buscaPorPaginacao(
+			@RequestParam(value = "page", defaultValue = "0") Integer page,
+			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
+			@RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
+			@RequestParam(value = "direction", defaultValue = "ASC") String direction) {
+
+		Page<Paciente> pacientes = pacienteService.buscaPorPaginacao(page, linesPerPage, orderBy, direction);
+		Page<PacienteDto> pacientesDto = pacientes.map(paciente -> new PacienteDto(paciente));
+		return ResponseEntity.ok().body(pacientesDto);
 	}
 
 }

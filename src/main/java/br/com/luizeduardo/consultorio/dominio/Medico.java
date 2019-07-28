@@ -1,10 +1,17 @@
 package br.com.luizeduardo.consultorio.dominio;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -14,24 +21,28 @@ public class Medico implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "id_medico", nullable = false)
+	@SequenceGenerator(sequenceName = "consultorio.medico_sequence_id", name = "consultorio.medico_sequence_id")
+	@GeneratedValue(generator = "consultorio.medico_sequence_id")
+	@Column(name = "id_medico")
 	private Long id;
-	
 	@NotNull
 	@Column(name = "nome_medico", nullable = false)
 	private String nome;
-	
 	@NotNull
 	@Column(name = "cpf_medico", nullable = false)
 	private String cpf;
-	
 	@NotNull
 	@Column(name = "sexo_medico", nullable = false)
 	private String sexo;
-	
 	@NotNull
 	@Column(name = "crm_medico", nullable = false)
 	private String crm;
+
+	@OneToMany(mappedBy = "medico", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<TelefoneMedico> telefoneMedico;
+
+	@OneToOne(mappedBy = "medico", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private EnderecoMedico enderecoMedico;
 
 	public Medico() {
 	}
@@ -83,6 +94,22 @@ public class Medico implements Serializable {
 
 	public void setCrm(String crm) {
 		this.crm = crm;
+	}
+
+	public List<TelefoneMedico> getTelefoneMedico() {
+		return telefoneMedico;
+	}
+
+	public void setTelefoneMedico(List<TelefoneMedico> telefoneMedico) {
+		this.telefoneMedico = telefoneMedico;
+	}
+
+	public EnderecoMedico getEnderecoMedico() {
+		return enderecoMedico;
+	}
+
+	public void setEnderecoMedico(EnderecoMedico enderecoMedico) {
+		this.enderecoMedico = enderecoMedico;
 	}
 
 	@Override

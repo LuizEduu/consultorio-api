@@ -20,7 +20,7 @@ public class EnderecoPaciente implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name = "consultorio.paciente_endereco_sequence_id", sequenceName = "consultorio.paciente_endereco_sequence_id")
+	@SequenceGenerator(sequenceName = "consultorio.paciente_endereco_sequence_id", name = "consultorio.paciente_endereco_sequence_id")
 	@GeneratedValue(generator = "consultorio.paciente_endereco_sequence_id")
 	@Column(name = "id_endereco_paciente")
 	private Long id;

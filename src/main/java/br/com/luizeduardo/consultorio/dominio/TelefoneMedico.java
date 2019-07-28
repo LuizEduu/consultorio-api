@@ -5,9 +5,14 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(schema = "consultorio", name = "telefone_medico")
@@ -15,12 +20,20 @@ public class TelefoneMedico implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@SequenceGenerator(sequenceName = "consultorio.medico_telefone_sequence_id", name = "consultorio.medico_telefone_sequence_id")
+	@GeneratedValue(generator = "consultorio.medico_telefone_sequence_id")
+	@Column(name = "id_telefone_medico")
 	private Long id;
+	@Column(name = "tipo_telefone_medico", nullable = false)
+	@NotNull
 	private String tipo;
+	@Column(name = "numero_telefone_medico", nullable = false)
+	@NotNull
 	private String numero;
-	@Column(name = "id_medico")
-	private Medico idMedico;
+	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(name = "id_medico")
+	private Medico medico;
 
 	public TelefoneMedico() {
 	}
@@ -30,7 +43,7 @@ public class TelefoneMedico implements Serializable {
 		this.id = id;
 		this.tipo = tipo;
 		this.numero = numero;
-		this.idMedico = idMedico;
+		this.medico = idMedico;
 	}
 
 	public Long getId() {
@@ -57,12 +70,12 @@ public class TelefoneMedico implements Serializable {
 		this.numero = numero;
 	}
 
-	public Medico getIdMedico() {
-		return idMedico;
+	public Medico getMedico() {
+		return medico;
 	}
 
-	public void setIdMedico(Medico idMedico) {
-		this.idMedico = idMedico;
+	public void setMedico(Medico medico) {
+		this.medico = medico;
 	}
 
 	@Override
