@@ -1,6 +1,7 @@
 package br.com.luizeduardo.consultorio.dominio;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -32,6 +33,9 @@ public class Medico implements Serializable {
 	@Column(name = "cpf_medico", nullable = false)
 	private String cpf;
 	@NotNull
+	@Column(name = "email_medico", nullable = false)
+	private String email;
+	@NotNull
 	@Column(name = "sexo_medico", nullable = false)
 	private String sexo;
 	@NotNull
@@ -39,7 +43,7 @@ public class Medico implements Serializable {
 	private String crm;
 
 	@OneToMany(mappedBy = "medico", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<TelefoneMedico> telefoneMedico;
+	private List<TelefoneMedico> telefoneMedico = new ArrayList<TelefoneMedico>();
 
 	@OneToOne(mappedBy = "medico", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private EnderecoMedico enderecoMedico;
@@ -78,6 +82,14 @@ public class Medico implements Serializable {
 
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getSexo() {

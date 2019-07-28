@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import br.com.luizeduardo.consultorio.dominio.EnderecoMedico;
@@ -30,15 +33,17 @@ public class MedicoService {
 		saveMedico.setNome(medico.getNome());
 		saveMedico.setCpf(medico.getCpf());
 		saveMedico.setSexo(medico.getSexo());
+		saveMedico.setEmail(medico.getEmail());
 		saveMedico.setCrm(medico.getCrm());
-		Medico getMedico = medicoRepository.save(medico);
+		Medico getMedico = medicoRepository.save(saveMedico);
 
-		medico.getTelefoneMedico().forEach(telefone -> {
+		medico.getTelefoneMedico().forEach(telefones -> {
 			TelefoneMedico telefoneMedico = new TelefoneMedico();
-			telefoneMedico.setTipo(telefone.getTipo());
-			telefoneMedico.setNumero(telefone.getNumero());
+			telefoneMedico.setTipo(telefones.getTipo());
+			telefoneMedico.setNumero(telefones.getNumero());
 			telefoneMedico.setMedico(getMedico);
 			telefoneMedicoRepository.save(telefoneMedico);
+
 		});
 
 		EnderecoMedico enderecoMedico = new EnderecoMedico();
@@ -48,8 +53,8 @@ public class MedicoService {
 		enderecoMedico.setCidade(medico.getEnderecoMedico().getCidade());
 		enderecoMedico.setMedico(getMedico);
 		enderecoMedicoRepository.save(enderecoMedico);
+		return getMedico;
 
-		return saveMedico;
 	}
 
 	public Optional<Medico> findById(Long id) {
@@ -62,5 +67,14 @@ public class MedicoService {
 
 	public List<Medico> findAll() {
 		return medicoRepository.findAll();
+	}
+
+	public void removerMedico(Long id) {
+		medicoRepository.deleteById(id);
+	}
+
+	public Page<Medico> buscaPorPaginacao(Integer page, Integer linesPerPage, String direction, String orderBy) {
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		return medicoRepository.findAll(pageRequest);
 	}
 }

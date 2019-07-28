@@ -89,7 +89,7 @@ public class PacienteResource {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> removerPaciente(@PathVariable Long id) {
+	public ResponseEntity<String> removerPaciente(@PathVariable Long id) {
 		Optional<Paciente> paciente = pacienteService.findById(id);
 
 		if (paciente == null) {
